@@ -1,0 +1,137 @@
+# ==============================================================================
+# Phoenix Academic Intelligence - Comprehensive Git Ignore Rules
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Sensitive Environment & API Credentials
+# ------------------------------------------------------------------------------
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+!.env.example
+
+# ------------------------------------------------------------------------------
+# 2. Prompt, Scratch & Raw Instruction Files (Strict Exclusion)
+# ------------------------------------------------------------------------------
+*prompt*.txt
+*-prompt.txt
+raw-prompt.txt
+onboarding-content-based-prompt.txt
+Problem-Statement.txt
+*.prompt
+scratch/
+*.scratch
+* (1).*
+* (2).*
+onboarding/studywitheila.work/
+onboarding/*.html
+onboarding/*.docx
+*guide*.md
+hackathon*
+*Academic Intelligence_files/
+
+# ------------------------------------------------------------------------------
+# 3. Python Cache, Bytecode & Virtual Environments
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Environments
+.env/
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+
+# ------------------------------------------------------------------------------
+# 4. Next.js, Node.js & Frontend Build Artifacts
+# ------------------------------------------------------------------------------
+node_modules/
+**/node_modules/
+.next/
+**/.next/
+out/
+**/out/
+.vercel
+*.tsbuildinfo
+next-env.d.ts
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ------------------------------------------------------------------------------
+# 5. Local Databases, Heavy Media Caches & Export Dumps
+# ------------------------------------------------------------------------------
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+.cache_ncert/
+**/.cache_ncert/
+textbooks/
+**/textbooks/
+exports/
+exports/*
+
+
+# ------------------------------------------------------------------------------
+# 6. Operating System & Editor Metadata
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+*.swp
+*.swo

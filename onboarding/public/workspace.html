@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phoenix AI • Agentic Academic Intelligence</title>
+  <meta name="description" content="Agentic Tutor & Multi-Agent Architecture for Mathematics, Physics, Computing & Life Sciences with KaTeX LaTeX, YouTube Lectures, Google Books Citations, and Context Dossiers.">
+  
+  <!-- Modern Typography Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- KaTeX for Rigorous LaTeX Math Formatting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Marked for Markdown Rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- Highlight.js for Code Syntax Highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="phoenix-app">
+    <!-- TOP HEADER -->
+    <header class="app-header">
+      <!-- Left: Logo & Editorial Title -->
+      <div class="header-brand">
+        <img src="logo.png" alt="Phoenix AI Logo" class="brand-logo-img" />
+        <div class="brand-titles">
+          <div class="brand-name">
+            <span class="brand-phoenix">Phoenix AI</span>
+            <span class="brand-badge">Multi-Agent Architecture</span>
+          </div>
+          <span class="brand-sub">Agentic Academic Intelligence & Research Platform</span>
+        </div>
+      </div>
+
+      <!-- Center: Status & Intelligence Engine -->
+      <div class="header-engine">
+        <span class="engine-pulse"></span>
+        <span class="engine-text" id="engineStatusText" data-i18n="engine_status">Academic Research Engine</span>
+      </div>
+
+      <!-- Controls: Language Selector & B&W Mode -->
+      <div class="header-controls-group">
+        <div class="header-lang-box" title="Transform Platform Language">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <select id="langSelect" class="lang-select" title="Change Language">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+          </select>
+        </div>
+
+        <button id="bwToggleBtn" class="btn-bw-toggle" title="Toggle Black & White / High-Contrast Mode">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2a10 10 0 0 0 0 20V2z"/></svg>
+          <span class="bw-label" id="bwToggleText" data-i18n="bw_mode">B&W Mode</span>
+        </button>
+
+        <a href="/" class="btn-bw-toggle" title="Open Onboarding Starting Page" style="text-decoration: none;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span class="bw-label">Onboarding</span>
+        </a>
+      </div>
+
+      <!-- Right: Export Context Report Hub -->
+      <div class="header-export-hub">
+        <button id="exportZipBtn" class="btn-export btn-export-zip" title="Export complete Dossier with User Progress, Books, Videos & Solutions in ZIP archive">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          <span data-i18n="export_zip">Export ZIP</span>
+        </button>
+        <div class="export-format-pills">
+          <button id="exportDocxBtn" class="btn-export btn-export-pill" title="Export Academic Context Report as Microsoft Word (.docx)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="16" y2="13"/></svg>
+            <span>Word</span>
+          </button>
+          <button id="exportPptxBtn" class="btn-export btn-export-pill" title="Export Academic Context Presentation as PowerPoint (.pptx)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <span>PPT</span>
+          </button>
+          <button id="exportXlsxBtn" class="btn-export btn-export-pill" title="Export Progress Analytics & Solutions as Excel (.xlsx)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+            <span>Excel</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN BODY: WORKSPACE STAGE + RIGHT NAVIGATION SIDEBAR -->
+    <div class="app-body">
+      <!-- WORKSPACE STAGE (Changes dynamically when tabs are clicked) -->
+      <main class="workspace-stage" id="workspaceStage">
+        <!-- ============================================================== -->
+        <!-- MODE 1: TUTOR VIEW (Primary Chat & Problem Solving Engine)     -->
+        <!-- ============================================================== -->
+        <div class="view-tutor" id="viewTutor">
+          <!-- Left History Sidebar -->
+          <aside class="tutor-history-sidebar">
+            <div class="sidebar-top">
+              <div class="history-header">
+                <h3>Session History</h3>
+                <span class="badge" id="historyCountBadge">0</span>
+              </div>
+              
+              <div class="search-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="chatSearchInput" placeholder="Search past inquiries..." />
+              </div>
+
+              <button id="newChatBtn" class="btn-new-chat">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                + New Inquiry
+              </button>
+
+              <!-- Domain Filter Tags with Vector Logos -->
+              <div class="domain-chips">
+                <button class="d-chip active" data-domain="all">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                  All
+                </button>
+                <button class="d-chip" data-domain="math">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h4l4-16h4"/><path d="M4 10h16"/></svg>
+                  Maths
+                </button>
+                <button class="d-chip" data-domain="programming">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                  Code/DP
+                </button>
+                <button class="d-chip" data-domain="physics">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2z"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(30 12 12)"/></svg>
+                  Physics
+                </button>
+                <button class="d-chip" data-domain="biology">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"/><path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"/></svg>
+                  Biology
+                </button>
+                <button class="d-chip" data-domain="chemistry">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.31L4.15 19.9a2 2 0 0 0 1.7 3.1h12.3a2 2 0 0 0 1.7-3.1L14 9.31V2"/></svg>
+                  Chemistry
+                </button>
+              </div>
+            </div>
+
+            <!-- History List Items -->
+            <div class="history-scrollable" id="historyListContainer">
+              <div class="history-empty">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                <p>No history records found.<br>Submit your first academic problem.</p>
+              </div>
+            </div>
+
+            <div class="sidebar-bottom">
+              <div class="storage-tag">
+                <span class="dot-green"></span>
+                <span>Synced: <code>data/history.json</code></span>
+              </div>
+              <button id="clearAllBtn" class="btn-clear-history" title="Clear all local session records">
+                Clear
+              </button>
+            </div>
+          </aside>
+
+          <!-- Middle Chat & Answer Stream -->
+          <section class="tutor-chat-center">
+            <!-- Top Active Agent Header -->
+            <div class="agent-bar">
+              <div class="current-agent-info">
+                <div class="agent-icon-box" id="agentIconBox">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <div>
+                  <div class="agent-title-row">
+                    <span class="agent-name" id="agentName" data-i18n="specialist_agent">Specialist AI Agent</span>
+                    <span class="model-pill" id="modelPill" data-i18n="verified_engine">Verified Academic Engine</span>
+                  </div>
+                  <span class="agent-desc" id="agentDesc">Rigorous Step-by-Step Proofs, LaTeX Math, YouTube Lectures & Google Books</span>
+                </div>
+              </div>
+              
+              <div class="agent-quick-actions">
+                <button class="quick-chip" data-q="Solve the Time-Independent Schrödinger Equation for a particle in a 1D box with LaTeX proof">Schrödinger 1D Box</button>
+                <button class="quick-chip" data-q="Explain Fibonacci Dynamic Programming with state recurrence $dp[i] = dp[i-1] + dp[i-2]$ and $O(1)$ space optimization">Fibonacci DP</button>
+                <button class="quick-chip" data-q="Explain Mitochondria ATP Synthase and Oxidative Phosphorylation proton gradient mechanisms">Mitochondria ATP</button>
+              </div>
+            </div>
+
+            <!-- Messages Window (Scrollable) -->
+            <div class="chat-messages" id="chatMessages">
+              <!-- Welcome Hero Card -->
+              <div class="welcome-card" id="welcomeCard">
+                <div class="welcome-header">
+                  <img src="logo.png" alt="Phoenix Logo" class="welcome-logo" />
+                  <div>
+                    <h2>Agentic Tutor, built for every student & institute.</h2>
+                    <p>Phoenix pairs specialized subject sub-agents, routing complex academic inquiries with verified mathematical proofs, textbook citations, and lecture videos.</p>
+                  </div>
+                </div>
+                
+                <div class="feature-grid">
+                  <div class="feat-box">
+                    <svg class="feat-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h4l4-16h4"/><path d="M4 10h16"/></svg>
+                    <h4>Rigorous LaTeX Math</h4>
+                    <p>Derivations, formal proofs, matrices, and recurrence formulations rendered in KaTeX.</p>
+                  </div>
+                  <div class="feat-box">
+                    <svg class="feat-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                    <h4>Live YouTube Lectures</h4>
+                    <p>Curated university lecture videos retrieved via YouTube Data API with in-app player.</p>
+                  </div>
+                  <div class="feat-box">
+                    <svg class="feat-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    <h4>Google Books & Page Citations</h4>
+                    <p>Peer-reviewed textbooks with exact relevant chapter & page citations.</p>
+                  </div>
+                  <div class="feat-box">
+                    <svg class="feat-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <h4>Context Dossier Export</h4>
+                    <p>Comprehensive Word, PPT, Excel, and ZIP reports incorporating user analytics.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Docked Question Asking Bar at Bottom -->
+            <div class="input-bar-container">
+              <!-- Attachment Preview Bar -->
+              <div class="attachment-preview-bar" id="attachmentPreviewBar" style="display: none;">
+                <div class="att-info">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  <span class="att-name" id="attName">document.pdf</span>
+                  <span class="att-size" id="attSize">120 KB</span>
+                </div>
+                <button id="removeAttBtn" class="btn-remove-att" title="Remove attachment">×</button>
+              </div>
+
+              <div class="input-bar">
+                <!-- Add File '+' Option Button -->
+                <div class="add-file-wrapper">
+                  <button id="addFileBtn" class="btn-add-file" title="Attach file or snap photo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  </button>
+
+                  <!-- Popover Menu -->
+                  <div class="file-options-menu" id="fileOptionsMenu">
+                    <div class="menu-title">Attach Source Data:</div>
+                    <button class="menu-item" id="optCamera">
+                      <svg class="menu-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                      <div class="menu-text">
+                        <strong>Camera Snapshot</strong>
+                        <small>Capture textbook page or handwritten equations</small>
+                      </div>
+                    </button>
+                    <button class="menu-item" id="optPhoto">
+                      <svg class="menu-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                      <div class="menu-text">
+                        <strong>Photo / Diagram</strong>
+                        <small>Upload PNG, JPG diagram or screenshot</small>
+                      </div>
+                    </button>
+                    <button class="menu-item" id="optFiles">
+                      <svg class="menu-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                      <div class="menu-text">
+                        <strong>Files / Document</strong>
+                        <small>Upload PDF, DOCX, TXT, or Code files</small>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Hidden inputs -->
+                <input type="file" id="photoInput" accept="image/*" style="display: none;" />
+                <input type="file" id="fileInput" accept=".pdf,.docx,.txt,.py,.cpp,.c,.js,.json" style="display: none;" />
+
+                <!-- Text Area -->
+                <div class="input-field-wrap">
+                  <textarea id="questionInput" rows="1" placeholder="Ask any academic problem in Maths, Physics, Code, Chemistry, Bio... (Press Enter)"></textarea>
+                </div>
+
+                <!-- Mic & Send -->
+                <div class="input-actions">
+                  <button id="micBtn" class="btn-mic" title="Voice Input (Click to speak)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                  </button>
+
+                  <button id="sendBtn" class="btn-send" title="Solve Problem (Enter)">
+                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="input-hint">
+                <span>Press <kbd>Enter</kbd> to solve • <kbd>Shift + Enter</kbd> for newline • Voice input and file extraction supported</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- MODE 2: RECOMMENDATION WORKSPACE (Full-Screen Studio)          -->
+        <!-- ============================================================== -->
+        <div class="fullscreen-workspace" id="viewRecommendation">
+          <div class="workspace-header">
+            <h2 data-i18n="rec_header_title">Academic Recommendation & Research Studio</h2>
+            <p data-i18n="rec_header_subtitle">Curated Video Masterclasses, Official NCERT Textbooks, arXiv Research Papers, and Academic Books tailored to your academic inquiries.</p>
+          </div>
+
+          <!-- Recommendation Studio Sub-Navigation Tabs -->
+          <div class="rec-subnav">
+            <button class="rec-subtab active" data-subtab="videos" id="tabRecVideos">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+              <span data-i18n="subtab_videos">Video Masterclasses</span>
+            </button>
+            <button class="rec-subtab" data-subtab="ncert" id="tabRecNcert">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              <span data-i18n="subtab_ncert">NCERT Textbooks</span>
+            </button>
+            <button class="rec-subtab" data-subtab="papers" id="tabRecPapers">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <span data-i18n="subtab_papers">Research Papers</span>
+            </button>
+            <button class="rec-subtab" data-subtab="books" id="tabRecBooks">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              <span data-i18n="subtab_books">Academic Books</span>
+            </button>
+            <button class="rec-subtab" data-subtab="inquiries" id="tabRecInquiries">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span data-i18n="subtab_inquiries">Inquiry Pathways</span>
+            </button>
+          </div>
+
+          <!-- SUBVIEW 1: CATEGORIZED YOUTUBE VIDEOS (Physics, Chemistry, Maths, Suggested) -->
+          <div class="rec-subview active" id="subviewVideos">
+            <!-- Suggested for You (Based on History) -->
+            <div class="rec-section-category">
+              <div class="category-header">
+                <div class="category-title-wrap">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                  <h3 data-i18n="vids_suggested_title">Suggested For Your Active Inquiries</h3>
+                </div>
+                <span class="category-badge" id="suggestedTopicBadge">History Synthesis</span>
+              </div>
+              <div class="rec-video-grid" id="suggestedVideosGrid">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+
+            <!-- Physics Lectures -->
+            <div class="rec-section-category">
+              <div class="category-header">
+                <div class="category-title-wrap">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2z"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(30 12 12)"/></svg>
+                  <h3 data-i18n="vids_physics_title">Physics & Quantum Mechanics Masterclasses</h3>
+                </div>
+                <span class="category-badge">Theory & Derivations</span>
+              </div>
+              <div class="rec-video-grid" id="physicsVideosGrid">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+
+            <!-- Chemistry Lectures -->
+            <div class="rec-section-category">
+              <div class="category-header">
+                <div class="category-title-wrap">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 22h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3V3a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v4H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2z"/></svg>
+                  <h3 data-i18n="vids_chemistry_title">Chemistry & Molecular Sciences Masterclasses</h3>
+                </div>
+                <span class="category-badge">Reactions & Thermodynamics</span>
+              </div>
+              <div class="rec-video-grid" id="chemistryVideosGrid">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+
+            <!-- Mathematics Lectures -->
+            <div class="rec-section-category">
+              <div class="category-header">
+                <div class="category-title-wrap">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h4l4-16h4"/><path d="M4 10h16"/></svg>
+                  <h3 data-i18n="vids_math_title">Mathematics & Rigorous Proofs Masterclasses</h3>
+                </div>
+                <span class="category-badge">Calculus & Linear Algebra</span>
+              </div>
+              <div class="rec-video-grid" id="mathVideosGrid">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBVIEW 2: NCERT TEXTBOOK EXPLORER PIPELINE -->
+          <div class="rec-subview" id="subviewNcert">
+            <div class="ncert-filter-card">
+              <div class="ncert-toolbar">
+                <div class="ncert-select-box">
+                  <label data-i18n="ncert_lbl_class">Class</label>
+                  <select id="ncertClassSelect" class="ncert-select">
+                    <option value="">All Classes (1 - 12)</option>
+                    <option value="12">Class 12</option>
+                    <option value="11">Class 11</option>
+                    <option value="10">Class 10</option>
+                    <option value="9">Class 9</option>
+                    <option value="8">Class 8</option>
+                    <option value="7">Class 7</option>
+                    <option value="6">Class 6</option>
+                  </select>
+                </div>
+
+                <div class="ncert-select-box">
+                  <label data-i18n="ncert_lbl_subject">Subject</label>
+                  <select id="ncertSubjectSelect" class="ncert-select">
+                    <option value="all">All Subjects</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Maths">Mathematics</option>
+                    <option value="Biology">Biology</option>
+                    <option value="Science">Science</option>
+                    <option value="History">History</option>
+                    <option value="Geography">Geography</option>
+                    <option value="Economics">Economics</option>
+                  </select>
+                </div>
+
+                <div class="ncert-select-box">
+                  <label data-i18n="ncert_lbl_medium">Medium</label>
+                  <select id="ncertMediumSelect" class="ncert-select">
+                    <option value="all">All Languages</option>
+                    <option value="English">English</option>
+                    <option value="Hindi">Hindi (हिंदी)</option>
+                  </select>
+                </div>
+
+                <div class="ncert-select-box">
+                  <label data-i18n="ncert_lbl_search">Search Books</label>
+                  <input type="text" id="ncertSearchInput" class="ncert-input" placeholder="Search book title..." />
+                </div>
+
+                <button id="ncertFilterBtn" class="btn-ncert-filter">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <span data-i18n="ncert_btn_explore">Explore</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- NCERT Books Results Grid -->
+            <div class="ncert-grid" id="ncertBooksGrid">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- SUBVIEW 3: RESEARCH PAPERS FINDER (arXiv & Semantic Scholar) -->
+          <div class="rec-subview" id="subviewPapers">
+            <div class="paper-toolbar-card">
+              <div class="paper-search-wrap">
+                <input type="text" id="papersSearchInput" class="paper-search-input" placeholder="Search arXiv & Semantic Scholar research papers (e.g., Quantum Computing, General Relativity, Transformer Attention)..." />
+                <button id="papersSearchBtn" class="btn-paper-search">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <span data-i18n="paper_btn_search">Search Papers</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="papers-list" id="papersList">
+              <!-- Dynamically populated with arXiv & Semantic Scholar results -->
+            </div>
+          </div>
+
+          <!-- SUBVIEW 4: ACADEMIC BOOKS EXPLORER (Google Books Search & Dropdown) -->
+          <div class="rec-subview" id="subviewBooks">
+            <div class="books-toolbar-card">
+              <div class="books-toolbar-grid">
+                <input type="text" id="booksSearchInput" class="books-search-input" placeholder="Search academic treatises, textbooks & reference volumes (e.g. Calculus, Quantum Physics)..." />
+                <select id="booksDomainSelect" class="books-domain-select">
+                  <option value="all">All Disciplines</option>
+                  <option value="physics">Physics</option>
+                  <option value="chemistry">Chemistry</option>
+                  <option value="mathematics">Mathematics</option>
+                  <option value="biology">Biology & Life Sciences</option>
+                  <option value="computer science">Computer Science & AI</option>
+                </select>
+                <button id="booksSearchBtn" class="btn-books-search">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <span data-i18n="books_btn_search">Search Books</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="books-results-grid" id="booksResultsGrid">
+              <!-- Dynamically populated from Google Books API -->
+            </div>
+          </div>
+
+          <!-- SUBVIEW 5: INQUIRY TREE & PRACTICE CHALLENGE -->
+          <div class="rec-subview" id="subviewInquiries">
+            <div class="rec-grid-layout">
+              <div class="rec-card-full">
+                <h3>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span data-i18n="rec_next_inquiries">Next Academic Inquiries</span>
+                </h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);" data-i18n="rec_click_inquiry">Click any inquiry below to immediately load it into the Tutor Engine for a complete derivation:</p>
+                <div class="rec-interactive-list" id="recQuestionsList">
+                  <!-- Dynamically populated -->
+                </div>
+              </div>
+
+              <div class="rec-card-full">
+                <h3>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                  <span data-i18n="rec_prereq">Prerequisite Knowledge Modules</span>
+                </h3>
+                <div class="rec-interactive-list" id="recPrereqList">
+                  <!-- Dynamically populated -->
+                </div>
+              </div>
+            </div>
+
+            <div class="rec-card-full" style="margin-top: 20px;">
+              <h3>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <span data-i18n="rec_practice">Curated Practice Challenge</span>
+              </h3>
+              <div id="practiceProblemBox" style="font-size: 0.9rem; color: var(--text-primary); line-height: 1.6;">
+                <!-- Dynamically populated -->
+              </div>
+              <button id="solvePracticeBtn" class="btn-primary-action" style="margin-top: 10px;" data-i18n="btn_load_tutor">Load into Tutor Engine →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- MODE 3: PROGRESS WORKSPACE (Comprehensive Analytics)           -->
+        <!-- ============================================================== -->
+        <div class="fullscreen-workspace" id="viewProgress">
+          <div class="workspace-header">
+            <h2>Learner Progress & Domain Analytics</h2>
+            <p>Verified mastery metrics across academic subject domains and research competencies.</p>
+          </div>
+
+          <div class="progress-kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-val" id="statStreak">5</div>
+              <div class="kpi-lbl">Days Active Streak</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-val" id="statSolved">14</div>
+              <div class="kpi-lbl">Problems Solved</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-val" id="statFocus">96%</div>
+              <div class="kpi-lbl">Focus Health Rating</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-val" id="statLevel">Advanced</div>
+              <div class="kpi-lbl">Knowledge Classification</div>
+            </div>
+          </div>
+
+          <div class="mastery-bars-container">
+            <h3 style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--forest-green);">Subject Domain Competencies</h3>
+            
+            <div class="mastery-item">
+              <div class="mastery-label-row">
+                <span>Mathematics (Proofs, Calculus, Linear Algebra)</span>
+                <strong id="barMathVal">82%</strong>
+              </div>
+              <div class="progress-track"><div class="progress-fill" id="barMathFill" style="width: 82%;"></div></div>
+            </div>
+
+            <div class="mastery-item">
+              <div class="mastery-label-row">
+                <span>Programming & Data Structures (DP, Algorithms, Recursion)</span>
+                <strong id="barProgVal">88%</strong>
+              </div>
+              <div class="progress-track"><div class="progress-fill" id="barProgFill" style="width: 88%;"></div></div>
+            </div>
+
+            <div class="mastery-item">
+              <div class="mastery-label-row">
+                <span>Physics (Quantum Mechanics, Field Equations, Optics)</span>
+                <strong id="barPhysVal">76%</strong>
+              </div>
+              <div class="progress-track"><div class="progress-fill" id="barPhysFill" style="width: 76%;"></div></div>
+            </div>
+
+            <div class="mastery-item">
+              <div class="mastery-label-row">
+                <span>Chemistry (Equilibrium Kinetics, Stoichiometry, Organic)</span>
+                <strong id="barChemVal">70%</strong>
+              </div>
+              <div class="progress-track"><div class="progress-fill" id="barChemFill" style="width: 70%;"></div></div>
+            </div>
+
+            <div class="mastery-item">
+              <div class="mastery-label-row">
+                <span>Biology (Cellular Respiration, Genetics, CRISPR)</span>
+                <strong id="barBioVal">74%</strong>
+              </div>
+              <div class="progress-track"><div class="progress-fill" id="barBioFill" style="width: 74%;"></div></div>
+            </div>
+          </div>
+
+          <div class="rec-card-full">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Concepts Mastered
+            </h3>
+            <div id="conceptsListContainer" class="rec-interactive-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- MODE 4: LEARN WORKSPACE (Curriculum & Active Recall Decks)     -->
+        <!-- ============================================================== -->
+        <div class="fullscreen-workspace" id="viewLearn">
+          <div class="workspace-header">
+            <h2>Active Recall Studio & Curriculum Roadmap</h2>
+            <p>Master rigorous formulas, laws, and definitions through interactive 3D flashcards and milestones.</p>
+          </div>
+
+          <!-- 3D Flip Flashcard -->
+          <div class="flashcard-card" id="flashcardElement">
+            <div class="flashcard-inner">
+              <div class="flashcard-front">
+                <span class="card-domain-badge" id="fcDomainBadge">Quantum Physics</span>
+                <h5 id="flashcardQuestion">What is the Time-Independent Schrödinger Equation in 1D?</h5>
+                <span class="card-flip-prompt">Click anywhere to flip and reveal derivation ↷</span>
+              </div>
+              <div class="flashcard-back">
+                <span class="card-domain-badge">Exact Formulation</span>
+                <div id="flashcardAnswer">
+                  $$-\frac{\hbar^2}{2m} \frac{d^2\psi}{dx^2} + V(x)\psi(x) = E\psi(x)$$
+                </div>
+                <span class="card-flip-prompt">Click to flip back ↶</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: center; gap: 16px; margin-top: 10px;">
+            <button id="prevFlashcardBtn" class="btn-export">← Previous Concept</button>
+            <span id="flashcardCounter" style="display: flex; align-items: center; font-size: 0.85rem; font-weight: 600; color: var(--forest-green);">Card 1 / 4</span>
+            <button id="nextFlashcardBtn" class="btn-export">Next Concept →</button>
+          </div>
+
+          <!-- Interactive Topic Quiz Generator -->
+          <div class="quiz-box-card" style="margin-top: 20px;">
+            <h3 style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--forest-green);">Examination & Practice Quiz Generator</h3>
+            <p style="font-size: 0.86rem; color: var(--text-secondary);">Generate an interactive 3-question MCQ quiz on your current topic with immediate grading and pedagogical explanations.</p>
+            <button id="generateQuizBtn" class="btn-primary-action">Generate Topic Examination</button>
+            <div id="quizContainer" class="quiz-container" style="display: none;"></div>
+          </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- MODE 5: PROFILE WORKSPACE (Learner Classification)             -->
+        <!-- ============================================================== -->
+        <div class="fullscreen-workspace" id="viewProfile">
+          <div class="workspace-header">
+            <h2>Learner Profile & Academic Classification</h2>
+            <p>Customize knowledge classification depth and academic goals.</p>
+          </div>
+
+          <div class="rec-card-full" style="max-width: 650px;">
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <div>
+                <label style="font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); display: block; margin-bottom: 6px;">Scholar Display Name:</label>
+                <input type="text" id="profileNameInput" value="Academic Scholar" style="width: 100%; padding: 10px; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); font-size: 0.9rem;" />
+              </div>
+
+              <div>
+                <label style="font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); display: block; margin-bottom: 6px;">Knowledge Level Classification:</label>
+                <select id="knowledgeLevelSelect" style="width: 100%; padding: 10px; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); font-size: 0.9rem; background: var(--bg-surface);">
+                  <option value="Beginner">Beginner (Foundational Principles & Intuition)</option>
+                  <option value="Intermediate">Intermediate (Undergraduate Problem Solving)</option>
+                  <option value="Advanced" selected>Advanced (Rigorous Proofs & Boundary Conditions)</option>
+                  <option value="Researcher">Researcher (Frontier Science & Formal Publications)</option>
+                </select>
+              </div>
+
+              <button id="saveProfileBtn" class="btn-primary-action" style="margin-top: 10px;">Save Profile Classification</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- MODE 6: SETTING WORKSPACE (Engine & Inference Config)          -->
+        <!-- ============================================================== -->
+        <div class="fullscreen-workspace" id="viewSetting">
+          <div class="workspace-header">
+            <h2 data-i18n="settings_header_title">Platform Configuration & Academic Pipelines</h2>
+            <p data-i18n="settings_header_subtitle">Customize platform appearance, language transformation, and inspect connected academic repositories.</p>
+          </div>
+
+          <div class="rec-card-full" style="max-width: 650px;">
+            <div style="display: flex; flex-direction: column; gap: 18px;">
+              <!-- Appearance: Black and White Mode -->
+              <div>
+                <label style="font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); display: block; margin-bottom: 6px;" data-i18n="settings_lbl_appearance">Display Appearance Mode:</label>
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);">
+                  <div>
+                    <div style="font-weight: 600; font-size: 0.9rem;" data-i18n="settings_bw_title">Black & White Monochrome Mode</div>
+                    <div style="font-size: 0.78rem; color: var(--text-secondary);" data-i18n="settings_bw_sub">High-contrast academic print aesthetic, optimized for distraction-free reading</div>
+                  </div>
+                  <button id="settingBwToggleBtn" class="btn-bw-toggle">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2a10 10 0 0 0 0 20V2z"/></svg>
+                    <span id="settingBwText" data-i18n="bw_mode">B&W Mode</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Language Option -->
+              <div>
+                <label style="font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); display: block; margin-bottom: 6px;" data-i18n="settings_lbl_language">Platform Language Transformation:</label>
+                <select id="settingLangSelect" style="width: 100%; padding: 10px; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); font-size: 0.9rem; background: var(--bg-surface); color: var(--text-primary);">
+                  <option value="en">English (English)</option>
+                  <option value="hi">हिन्दी (Hindi)</option>
+                  <option value="es">Español (Spanish)</option>
+                  <option value="fr">Français (French)</option>
+                  <option value="de">Deutsch (German)</option>
+                </select>
+              </div>
+
+              <!-- Connected Academic Pipelines -->
+              <div>
+                <label style="font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); display: block; margin-bottom: 6px;" data-i18n="settings_lbl_pipelines">Integrated Academic Pipelines:</label>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                  <div class="ref-item"><span>YouTube Data API v3 (Educational Lectures)</span><span class="badge">Verified Active</span></div>
+                  <div class="ref-item"><span>Google Books Academic API (Textbooks & Citations)</span><span class="badge">Verified Active</span></div>
+                  <div class="ref-item"><span>NCERT Official Textbook Repository Pipeline</span><span class="badge">Integrated & Live</span></div>
+                  <div class="ref-item"><span>arXiv & Semantic Scholar Research Papers Pipeline</span><span class="badge">Integrated & Live</span></div>
+                </div>
+              </div>
+
+              <div>
+                <button id="clearHistoryBtn" class="btn-tool" style="color: var(--terracotta); border-color: var(--border-subtle); width: 100%; justify-content: center; padding: 10px;" data-i18n="settings_btn_clear">Clear All Session History</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- ============================================================== -->
+      <!-- RIGHT NAVIGATION SIDEBAR                                       -->
+      <!-- ============================================================== -->
+      <nav class="right-nav-sidebar">
+        <div class="nav-section-title" data-i18n="nav_title">Navigation</div>
+
+        <button class="nav-sidebar-btn active" data-nav="tutor" title="Interactive Socratic Tutor & Chat">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <span data-i18n="nav_tutor">Tutor</span>
+        </button>
+
+        <button class="nav-sidebar-btn" data-nav="recommendation" title="Adaptive Inquiries & Concept Paths">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+          <span data-i18n="nav_recommendation">Recommendation</span>
+        </button>
+
+        <button class="nav-sidebar-btn" data-nav="progress" title="Domain Mastery & Learning Metrics">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span data-i18n="nav_progress">Progress</span>
+        </button>
+
+        <button class="nav-sidebar-btn" data-nav="learn" title="Active Recall & Curriculum Tree">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span data-i18n="nav_learn">Learn</span>
+        </button>
+
+        <button class="nav-sidebar-btn" data-nav="profile" title="Learner Profile & Level Classification">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span data-i18n="nav_profile">Profile</span>
+        </button>
+
+        <button class="nav-sidebar-btn" data-nav="setting" title="System Settings & Engine Setup">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span data-i18n="nav_setting">Setting</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- MODAL: CAMERA CAPTURE -->
+    <div class="modal-overlay" id="cameraModal">
+      <div class="modal-content modal-camera">
+        <div class="modal-header">
+          <h4>Camera Snapshot</h4>
+          <button class="btn-close-modal" id="closeCameraBtn">×</button>
+        </div>
+        <div class="modal-body">
+          <video id="cameraVideo" autoplay playsinline></video>
+          <canvas id="cameraCanvas" style="display: none;"></canvas>
+        </div>
+        <div class="modal-footer" style="padding: 12px 18px; display: flex; justify-content: flex-end;">
+          <button id="snapPhotoBtn" class="btn-primary-action">Capture & Attach</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: YOUTUBE VIDEO PLAYER -->
+    <div class="modal-overlay" id="videoModal">
+      <div class="modal-content modal-video">
+        <div class="modal-header">
+          <h4 id="videoModalTitle">University Lecture Video</h4>
+          <button class="btn-close-modal" id="closeVideoBtn">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="video-iframe-wrap">
+            <iframe id="videoIframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

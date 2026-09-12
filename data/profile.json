@@ -1,0 +1,43 @@
+{
+  "user_name": "Aditya Sharma",
+  "knowledge_level": "Advanced",
+  "streak_days": 5,
+  "total_questions": 12,
+  "focus_score": 96,
+  "domain_mastery": {
+    "math": 84,
+    "programming": 88,
+    "physics": 82,
+    "chemistry": 70,
+    "biology": 74,
+    "economics": 60,
+    "astronomy": 65,
+    "history": 58,
+    "general": 76
+  },
+  "concepts_mastered": [
+    "Time-Independent Schrödinger Equation",
+    "Fibonacci Dynamic Programming ($O(N)$ Space)",
+    "Mitochondrial Oxidative Phosphorylation",
+    "Le Chatelier's Equilibrium Principle",
+    "Eigenvalue & Eigenvector Decomposition"
+  ],
+  "goals": [
+    "Master Quantum Wave Mechanics & Operators",
+    "Solve 50 Dynamic Programming Problems",
+    "Complete Advanced Cellular Respiration & Genetics"
+  ],
+  "last_active": "2026-09-12T09:57:34.904495",
+  "institution": "Indian Institute of Science (IISc)",
+  "gradeOrDegree": "UG Physics & Math",
+  "coordinator_keywords": [
+    "#UG_PHYSICS_&_MATH",
+    "#INSTITUTE_VERIFIED_FACTS",
+    "#FORMAL_MATH_RIGOR",
+    "#SOCRATIC_QUESTIONING_MODE",
+    "#VISUAL_SIMULATION_INTERACTIVE",
+    "#TARGET_WEAKNESS_GREEN_FUNCTIONS",
+    "#TARGET_WEAKNESS_PERTURBATION_THEOR"
+  ],
+  "tailored_system_prompt": "[COORDINATOR TAILORED STUDENT CONTEXT]\nStudent Facts: Aditya Sharma (UG Physics & Math - Indian Institute of Science (IISc)) | Status: VERIFIED VIA SHEERID\nRouting Flags: #UG_PHYSICS_&_MATH #INSTITUTE_VERIFIED_FACTS #FORMAL_MATH_RIGOR #SOCRATIC_QUESTIONING_MODE #VISUAL_SIMULATION_INTERACTIVE #TARGET_WEAKNESS_GREEN_FUNCTIONS #TARGET_WEAKNESS_PERTURBATION_THEOR\nPedagogical Directives:\n- Rigor Level: 5/5 (Include formal proofs and rigorous boundary conditions)\n- Teaching Mode: 2/5 (Lead with Socratic questioning and intermediate hints)\n- Visual Element: 5/5 (Generate interactive Desmos curve or physics simulation parameters)\n- Target Weak Areas: Master core scientific subjects and derivations."
+}

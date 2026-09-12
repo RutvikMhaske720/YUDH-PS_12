@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Fira+Code:wght@400;500;600&display=swap');
+
+:root {
+  --bg-app: #FAF7F2;
+  --bg-subtle: #F5EFE6;
+  --bg-surface: #FFFFFF;
+  --forest-green: #23493D;
+  --forest-green-hover: #1B3B31;
+  --forest-green-light: #EAF0EC;
+  --forest-green-border: #D1DFD6;
+  --terracotta: #D9774E;
+  --text-primary: #18221D;
+  --text-secondary: #526058;
+  --text-muted: #7E8C84;
+  --border-subtle: #E8E2D8;
+  --font-serif: 'Newsreader', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'Fira Code', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  height: 100vh;
+  overflow: hidden;
+}
