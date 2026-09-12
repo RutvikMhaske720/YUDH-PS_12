@@ -60,6 +60,19 @@
           </select>
         </div>
 
+        <!-- Multi-Persona Switcher -->
+        <div class="header-persona-box" title="Switch Student / Scholar Persona">
+          <span style="font-size: 12px;">👤</span>
+          <select id="personaSelect" class="persona-select" title="Switch Scholar Persona">
+            <option value="active_scholar">⚡ Active Scholar</option>
+            <option value="school_student">🎓 School Student (JEE)</option>
+            <option value="college_undergrad">💻 College Undergrad (CS)</option>
+            <option value="phd_professor">🔬 PhD Scholar (Physics)</option>
+            <option value="new_user">👤 New User (Fresh)</option>
+          </select>
+        </div>
+
+
         <button id="bwToggleBtn" class="btn-bw-toggle" title="Toggle Black & White / High-Contrast Mode">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2a10 10 0 0 0 0 20V2z"/></svg>
           <span class="bw-label" id="bwToggleText" data-i18n="bw_mode">B&W Mode</span>
@@ -688,7 +701,82 @@
               <button id="saveProfileBtn" class="btn-primary-action" style="margin-top: 10px;">Save Profile Classification</button>
             </div>
           </div>
+
+          <!-- Interactive Persona Cards -->
+          <div class="rec-card-full" style="max-width: 650px; margin-top: 20px;">
+            <h3 style="font-family: var(--font-serif); font-size: 1.15rem; color: var(--forest-green); margin-bottom: 4px;">Instant Persona Simulation & Demo Profiles</h3>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 12px;">Switch between simulated students to observe tailored system prompts, vector embeddings, and inquiry depths:</p>
+            <div class="persona-grid" id="personaCardsGrid">
+              <div class="persona-card" data-persona="school_student">
+                <div class="persona-card-header">
+                  <span class="persona-name">🎓 Aarav Sharma</span>
+                  <span class="badge" style="font-size: 0.68rem;">Verified</span>
+                </div>
+                <div class="persona-role">School Student • JEE Aspirant</div>
+                <div class="persona-inst">Delhi Public School • Class 11 CBSE</div>
+                <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 4px;">Focus: Kinematics & Visual Simulations</div>
+              </div>
+
+              <div class="persona-card" data-persona="college_undergrad">
+                <div class="persona-card-header">
+                  <span class="persona-name">💻 Devansh Patel</span>
+                  <span class="badge" style="font-size: 0.68rem;">Verified</span>
+                </div>
+                <div class="persona-role">College Undergrad • CS Engineer</div>
+                <div class="persona-inst">IIT Bombay • B.Tech Year 3</div>
+                <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 4px;">Focus: Distributed Raft & Transformers</div>
+              </div>
+
+              <div class="persona-card" data-persona="phd_professor">
+                <div class="persona-card-header">
+                  <span class="persona-name">🔬 Dr. Meera Nambiar</span>
+                  <span class="badge" style="font-size: 0.68rem;">Faculty</span>
+                </div>
+                <div class="persona-role">PhD Scholar • Quantum Physics</div>
+                <div class="persona-inst">TIFR • Quantum Computing Group</div>
+                <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 4px;">Focus: Kitaev Toric Code Proofs & arXiv</div>
+              </div>
+
+              <div class="persona-card" data-persona="new_user">
+                <div class="persona-card-header">
+                  <span class="persona-name">👤 New Scholar</span>
+                  <span class="badge" style="font-size: 0.68rem; background: var(--bg-subtle);">Fresh</span>
+                </div>
+                <div class="persona-role">New Account • Blank Slate</div>
+                <div class="persona-inst">Starting Fresh with 0 Inquiries</div>
+                <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 4px;">Clean history ready for personalized onboarding</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chrome Extension Telemetry & logs.db Live Focus Card -->
+          <div class="telemetry-card-full" style="max-width: 650px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <h3 style="font-family: var(--font-serif); font-size: 1.15rem; color: var(--text-primary); margin: 0;">🔥 Chrome Extension • Focus & Dwell Telemetry</h3>
+              <span class="badge" style="background: rgba(46, 125, 90, 0.15); color: var(--forest-green);">logs.db Live</span>
+            </div>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 6px 0 12px 0;">Telemetry gathered by the Phoenix AI Chrome Extension comparing visited tabs against active learning goals:</p>
+            <div class="telemetry-stats-row">
+              <div class="tele-stat-box">
+                <span class="tele-stat-val" id="teleTotalMins">24.0m</span>
+                <span class="tele-stat-lbl">Total Time</span>
+              </div>
+              <div class="tele-stat-box">
+                <span class="tele-stat-val" id="teleFocusScore" style="color: var(--forest-green);">94%</span>
+                <span class="tele-stat-lbl">Focus Score</span>
+              </div>
+              <div class="tele-stat-box">
+                <span class="tele-stat-val" id="teleDistractions" style="color: var(--terracotta);">2</span>
+                <span class="tele-stat-lbl">Distractions</span>
+              </div>
+              <div class="tele-stat-box">
+                <span class="tele-stat-val" id="teleAvgSim">82%</span>
+                <span class="tele-stat-lbl">Goal Match</span>
+              </div>
+            </div>
+          </div>
         </div>
+
 
         <!-- ============================================================== -->
         <!-- MODE 6: SETTING WORKSPACE (Engine & Inference Config)          -->

@@ -2776,3 +2776,242 @@ body.bw-mode .book-card-pages {
   text-decoration: underline;
 }
 
+/* =====================================================================
+   NUMBERED CITATIONS & VERIFIED SOURCES CARDS
+   ===================================================================== */
+.citation-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--terracotta-light, rgba(201, 122, 94, 0.15));
+  color: var(--terracotta, #c97a5e);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid rgba(201, 122, 94, 0.3);
+  margin: 0 2px;
+  vertical-align: super;
+  transition: all 0.2s ease;
+}
+
+.citation-badge:hover {
+  background: var(--terracotta, #c97a5e);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 6px rgba(201, 122, 94, 0.35);
+}
+
+.citations-section {
+  margin-top: 24px;
+  padding: 18px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--forest-green);
+}
+
+.citations-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.citations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.citation-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.84rem;
+  transition: all 0.25s ease;
+}
+
+.citation-item:hover, .citation-item.highlight {
+  border-color: var(--forest-green);
+  background: var(--forest-green-light, rgba(46, 125, 90, 0.08));
+}
+
+.cite-num-badge {
+  background: var(--forest-green);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.cite-details {
+  flex: 1;
+}
+
+.cite-title {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.cite-location {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.cite-type-pill {
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--border-subtle);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* =====================================================================
+   KATEX & LATEX MATH FORMATTING STABILIZATION
+   ===================================================================== */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 12px 16px;
+  margin: 14px 0 !important;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  text-align: center;
+}
+
+.katex {
+  font-size: 1.05em !important;
+  text-rendering: auto;
+}
+
+/* =====================================================================
+   MULTI-PERSONA SWITCHER & TELEMETRY STYLES
+   ===================================================================== */
+.header-persona-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+}
+
+.persona-select {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+}
+
+.persona-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.persona-card {
+  padding: 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.persona-card:hover {
+  border-color: var(--forest-green);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.persona-card.active {
+  border-color: var(--forest-green);
+  background: var(--forest-green-light, rgba(46, 125, 90, 0.06));
+}
+
+.persona-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.persona-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.persona-role {
+  font-size: 0.76rem;
+  color: var(--forest-green);
+  font-weight: 600;
+}
+
+.persona-inst {
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+}
+
+.telemetry-card-full {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  margin-top: 16px;
+}
+
+.telemetry-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.tele-stat-box {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  text-align: center;
+}
+
+.tele-stat-val {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: block;
+}
+
+.tele-stat-lbl {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+

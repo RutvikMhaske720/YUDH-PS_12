@@ -70,6 +70,13 @@ document.addEventListener("DOMContentLoaded", () => {
     settingBwToggleBtn: document.getElementById("settingBwToggleBtn"),
     bwToggleText: document.getElementById("bwToggleText"),
     settingBwText: document.getElementById("settingBwText"),
+    personaSelect: document.getElementById("personaSelect"),
+    personaCardsGrid: document.getElementById("personaCardsGrid"),
+    teleTotalMins: document.getElementById("teleTotalMins"),
+    teleFocusScore: document.getElementById("teleFocusScore"),
+    teleDistractions: document.getElementById("teleDistractions"),
+    teleAvgSim: document.getElementById("teleAvgSim"),
+
 
     // Chat Stream & Input
     chatMessages: document.getElementById("chatMessages"),
@@ -1064,7 +1071,62 @@ document.addEventListener("DOMContentLoaded", () => {
     const asstMsg = document.createElement("div");
     asstMsg.className = `msg-row ${rec.is_penalty ? 'penalty-msg' : ''}`;
 
-    let parsedMarkdown = window.marked ? marked.parse(rec.answer) : rec.answer;
+    // Extract or build verified numbered citations
+    let citations = rec.citations || [];
+    if ((!citations || citations.length === 0) && rec.references && rec.references.length > 0) {
+      citations = rec.references.map((r, i) => ({
+        num: i + 1,
+        title: r.citation || "Academic Publication",
+        ref: r.doi_url ? `DOI: ${r.doi_url}` : "Authoritative Reference",
+        type: "journal"
+      }));
+    }
+    if ((!citations || citations.length === 0) && rec.books && rec.books.length > 0) {
+      citations = rec.books.map((b, i) => ({
+        num: i + 1,
+        title: b.title,
+        ref: `${b.authors || 'Scholars'} • ${b.relevant_page_info || 'Curated Excerpt'}`,
+        type: "textbook",
+        url: b.previewLink
+      }));
+    }
+
+    // Preprocess citations in markdown answer: replace [1], [2] with interactive badge links
+    let formattedAnswer = rec.answer || "";
+    formattedAnswer = formattedAnswer.replace(/\[(\d+)\]/g, (match, p1) => {
+      return `<a class="citation-badge" href="#cite-item-${p1}" data-cite-target="${p1}">[${p1}]</a>`;
+    });
+
+    let parsedMarkdown = window.marked ? marked.parse(formattedAnswer) : formattedAnswer;
+
+    // Build Verified Citations HTML Block
+    let citationsHtml = "";
+    if (citations && citations.length > 0) {
+      citationsHtml = `
+        <div class="citations-section" id="citationsSection">
+          <div class="citations-header">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span>Verified Academic Citations & Authoritative Sources</span>
+          </div>
+          <div class="citations-list">
+            ${citations.map(c => `
+              <div class="citation-item" id="cite-item-${c.num}" data-cite-num="${c.num}">
+                <span class="cite-num-badge">[${c.num}]</span>
+                <div class="cite-details">
+                  <div class="cite-title">${escapeHtml(c.title)}</div>
+                  <div class="cite-location">${escapeHtml(c.ref || '')}</div>
+                </div>
+                <span class="cite-type-pill">${escapeHtml(c.type || 'Source')}</span>
+                ${c.url ? `
+                  <a href="${c.url}" target="_blank" rel="noopener" class="btn-book-preview" style="margin-left: 8px;">Explore Source →</a>
+                ` : ''}
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      `;
+    }
+
 
     // Build YouTube Video Cards HTML with Official SVG
     let videosHtml = "";
@@ -1156,7 +1218,8 @@ document.addEventListener("DOMContentLoaded", () => {
           ${parsedMarkdown}
         </div>
 
-        <!-- Attached Multimedia Resources -->
+        <!-- Attached Multimedia Resources & Authoritative Citations -->
+        ${citationsHtml}
         ${videosHtml}
         ${booksHtml}
         ${refsHtml}
@@ -1179,6 +1242,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Apply KaTeX math rendering and code highlighting
     renderRichContent(asstMsg);
+
 
     // Toolbar Listeners
     const copyBtn = asstMsg.querySelector(".btn-copy-md");
@@ -1215,12 +1279,126 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 100);
   }
 
-  function showWelcome() {
+    function showWelcome() {
     els.chatMessages.innerHTML = "";
     if (els.welcomeCard) {
       els.chatMessages.appendChild(els.welcomeCard);
     }
   }
+
+  // ==========================================
+  // KaTeX Math Rendering & Citation Interactivity
+  // ==========================================
+  function renderRichContent(container) {
+    if (!container) return;
+
+    // 1. Preprocess & render KaTeX LaTeX Formulas
+    if (window.renderMathInElement) {
+      try {
+        renderMathInElement(container, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "\\[", right: "\\]", display: true }
+          ],
+          throwOnError: false,
+          errorColor: "#c97a5e"
+        });
+      } catch (err) {
+        console.warn("KaTeX render notice:", err);
+      }
+    }
+
+    // 2. Syntax Highlighting
+    if (window.hljs) {
+      container.querySelectorAll("pre code").forEach(block => {
+        try {
+          hljs.highlightElement(block);
+        } catch (e) {}
+      });
+    }
+
+    // 3. Interactive Citation Badge Click Listeners
+    container.querySelectorAll(".citation-badge").forEach(badge => {
+      badge.addEventListener("click", (e) => {
+        e.preventDefault();
+        const citeNum = badge.getAttribute("data-cite-target");
+        const targetItem = document.getElementById(`cite-item-${citeNum}`);
+        if (targetItem) {
+          targetItem.scrollIntoView({ behavior: "smooth", block: "center" });
+          targetItem.classList.add("highlight");
+          setTimeout(() => targetItem.classList.remove("highlight"), 2200);
+        }
+      });
+    });
+  }
+
+  // ==========================================
+  // Multi-Persona Simulation Switcher
+  // ==========================================
+  async function switchPersona(personaKey) {
+    if (!personaKey) return;
+    showToast(`Activating persona: ${personaKey}...`);
+    try {
+      const res = await fetch("/api/user/switch-persona", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ persona_key: personaKey })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const p = data.profile;
+        showToast(`Active: ${p.avatar || '👤'} ${p.user_name} • ${p.role_title}`);
+
+        // Update active card styling
+        if (els.personaCardsGrid) {
+          els.personaCardsGrid.querySelectorAll(".persona-card").forEach(card => {
+            if (card.getAttribute("data-persona") === personaKey) {
+              card.classList.add("active");
+            } else {
+              card.classList.remove("active");
+            }
+          });
+        }
+        if (els.personaSelect) {
+          els.personaSelect.value = personaKey;
+        }
+
+        // Reload data
+        await loadProfile();
+        await loadHistory();
+        if (state.history.length > 0) {
+          displayRecord(state.history[0].id || state.history[0].record_id);
+        } else {
+          showWelcome();
+        }
+      }
+    } catch (err) {
+      console.error("Persona switch error:", err);
+      showToast("Failed to switch persona.");
+    }
+  }
+
+  // ==========================================
+  // Logs & Focus Telemetry Loader (logs.db)
+  // ==========================================
+  async function loadTelemetryAnalytics() {
+    try {
+      const res = await fetch("/api/logs/analytics");
+      if (res.ok) {
+        const data = await res.json();
+        const a = data.analytics;
+        if (els.teleTotalMins) els.teleTotalMins.textContent = `${a.total_time_minutes}m`;
+        if (els.teleFocusScore) els.teleFocusScore.textContent = `${a.focus_score}%`;
+        if (els.teleDistractions) els.teleDistractions.textContent = `${a.distraction_events}`;
+        if (els.teleAvgSim) els.teleAvgSim.textContent = `${Math.round(a.average_similarity * 100)}%`;
+      }
+    } catch (e) {
+      console.warn("Telemetry fetch notice:", e);
+    }
+  }
+
 
   // ==========================================
   // Ask Question / Problem Submission
@@ -1807,10 +1985,28 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/'/g, "&#039;");
   }
 
+  // Persona Switcher Listeners
+  if (els.personaSelect) {
+    els.personaSelect.addEventListener("change", (e) => {
+      switchPersona(e.target.value);
+    });
+  }
+
+  if (els.personaCardsGrid) {
+    els.personaCardsGrid.querySelectorAll(".persona-card").forEach(card => {
+      card.addEventListener("click", () => {
+        const pKey = card.getAttribute("data-persona");
+        if (pKey) switchPersona(pKey);
+      });
+    });
+  }
+
   // Initial Boot
   if (state.bwMode) toggleBwMode(true);
   applyLanguage(state.language);
   loadHistory();
   loadProfile();
+  loadTelemetryAnalytics();
   updateFlashcardView();
 });
+

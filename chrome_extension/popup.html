@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Phoenix AI Focus Guard</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <div class="popup-header">
+      <div class="header-brand">
+        <span class="flame-icon">🔥</span>
+        <div class="brand-text">
+          <span class="brand-title">Phoenix AI</span>
+          <span class="brand-sub">Academic Focus Guard</span>
+        </div>
+      </div>
+      <span class="badge-live">LIVE</span>
+    </div>
+
+    <!-- Active Tab Telemetry Card -->
+    <div class="telemetry-card">
+      <div class="telemetry-label">CURRENT TAB TELEMETRY</div>
+      <div class="tab-title" id="tabTitle">Querying active tab...</div>
+      <div class="tab-domain" id="tabDomain">--</div>
+
+      <div class="metric-row">
+        <div class="metric-box">
+          <span class="metric-num" id="simScore">--%</span>
+          <span class="metric-txt">Goal Alignment</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-num" id="dwellTime">0s</span>
+          <span class="metric-txt">Time on Tab</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Learning Goal -->
+    <div class="goal-card">
+      <div class="goal-label">SYNCED ACADEMIC TARGET</div>
+      <div class="goal-text" id="syncedGoal">Loading student goal from Phoenix...</div>
+      <div class="threshold-note">⚡ Demo Alert Trigger: <strong>10 Seconds</strong> dwell on low match (&lt;35%)</div>
+    </div>
+
+    <!-- Actions -->
+    <div class="popup-actions">
+      <a href="http://127.0.0.1:8000" target="_blank" class="btn-primary" id="openWorkspaceBtn">
+        Open Phoenix Workspace →
+      </a>
+      <button class="btn-secondary" id="syncNowBtn">
+        ↻ Sync Profile & Goals
+      </button>
+    </div>
+
+    <div class="popup-footer">
+      <span>Connected to <strong>logs.db</strong> & <strong>phoenix.db</strong></span>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

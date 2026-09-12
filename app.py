@@ -17,6 +17,9 @@ from agent import SpecialistAIAgent, DOMAINS, fetch_youtube_videos, fetch_google
 import storage
 import exporter
 import database
+import logs_db
+import vector_store
+import personas
 
 try:
     from catalog_data import NCERT_BOOKS, Book
@@ -553,10 +556,114 @@ def export_zip_endpoint():
         headers={"Content-Disposition": 'attachment; filename="Phoenix_Complete_Academic_Dossier.zip"'}
     )
 
+# ==========================================
+# Chrome Extension Logs & Telemetry Endpoints (logs.db)
+# ==========================================
+
+class LogTrackRequest(BaseModel):
+    url: str
+    page_title: Optional[str] = "Untitled Page"
+    domain: Optional[str] = None
+    time_spent_seconds: float = 0.0
+    category: Optional[str] = "Academic Research"
+    similarity_score: Optional[float] = 0.85
+    distraction_flag: Optional[bool] = False
+    suggested_action: Optional[str] = None
+    content_snippet: Optional[str] = None
+    user_id: Optional[str] = "default_scholar"
+
+class VectorIndexRequest(BaseModel):
+    doc_id: str
+    title: str
+    content: str
+    category: Optional[str] = "General"
+    metadata: Optional[Dict[str, Any]] = None
+
+class VectorSearchRequest(BaseModel):
+    query: str
+    top_k: Optional[int] = 5
+    category: Optional[str] = None
+
+class SwitchPersonaRequest(BaseModel):
+    persona_key: str
+
+@app.post("/api/logs/track")
+def track_browsing_log_endpoint(req: LogTrackRequest):
+    """Saves Chrome extension browsing logs, dwell times, and distraction events to data/logs.db."""
+    result = logs_db.log_activity(req.dict())
+    return result
+
+@app.get("/api/logs/recent")
+def get_recent_logs_endpoint(limit: int = 50, user_id: Optional[str] = None):
+    """Returns recent web activity and dwell records from data/logs.db."""
+    records = logs_db.get_recent_logs(limit=limit, user_id=user_id)
+    return {"success": True, "count": len(records), "logs": records}
+
+@app.get("/api/logs/analytics")
+def get_logs_analytics_endpoint(user_id: Optional[str] = None):
+    """Computes focus scores, distraction rates, and domain dwell distribution from logs.db."""
+    analytics = logs_db.get_logs_analytics(user_id=user_id)
+    return {"success": True, "analytics": analytics}
+
+# ==========================================
+# Vector Database & Cosine Similarity Endpoints
+# ==========================================
+
+@app.post("/api/vector/index")
+def index_vector_endpoint(req: VectorIndexRequest):
+    """Indexes custom documents or notes into the 128-dimension semantic vector database."""
+    res = vector_store.index_document(
+        doc_id=req.doc_id,
+        title=req.title,
+        content=req.content,
+        category=req.category,
+        metadata=req.metadata
+    )
+    return res
+
+@app.post("/api/vector/search")
+def search_vectors_endpoint(req: VectorSearchRequest):
+    """Performs cosine similarity search across indexed academic knowledge vectors."""
+    results = vector_store.search_similar(
+        query=req.query,
+        top_k=req.top_k,
+        category_filter=req.category
+    )
+    return {"success": True, "query": req.query, "results": results}
+
+@app.get("/api/vector/stats")
+def get_vector_stats_endpoint():
+    """Returns vector database backend configuration, total embeddings, and supported metrics."""
+    return vector_store.get_vector_db_stats()
+
+# ==========================================
+# Multi-Persona Management (School, College, PhD, New User)
+# ==========================================
+
+@app.get("/api/user/personas")
+def get_personas_endpoint():
+    """Returns available student and scholar persona templates."""
+    return {"success": True, "personas": personas.get_available_personas()}
+
+@app.post("/api/user/switch-persona")
+def switch_persona_endpoint(req: SwitchPersonaRequest):
+    """
+    Activates the chosen persona profile:
+    - Injects facts & preferences into database.py
+    - Embeds and stores preferences in vector_store.py
+    - Loads pre-populated tailored history into data/history.json
+    - Updates storage.py user profile
+    """
+    res = personas.switch_to_persona(req.persona_key)
+    if not res.get("success"):
+        raise HTTPException(status_code=404, detail=res.get("error"))
+    return res
+
 # Static files mount
 static_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
 os.makedirs(static_path, exist_ok=True)
 app.mount("/", StaticFiles(directory=static_path, html=True), name="static")
+
 
 if __name__ == "__main__":
     import uvicorn

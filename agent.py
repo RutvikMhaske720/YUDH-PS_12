@@ -720,6 +720,29 @@ class SpecialistAIAgent:
 
         elapsed = round(time.time() - start_time, 2)
 
+        # Build structured citations for numbered interactive superscript referencing
+        citations = []
+        c_num = 1
+        for ref in references:
+            title = ref.get("citation", "").split(".")[0] if "." in ref.get("citation", "") else ref.get("citation", "Academic Reference")
+            citations.append({
+                "num": c_num,
+                "title": title,
+                "ref": ref.get("citation", ""),
+                "type": "journal",
+                "url": ref.get("doi_url")
+            })
+            c_num += 1
+        for b in books[:2]:
+            citations.append({
+                "num": c_num,
+                "title": b.get("title", "Textbook Reference"),
+                "ref": f"{b.get('authors', 'Scholars')} • {b.get('relevant_page_info', 'Excerpt')}",
+                "type": "textbook",
+                "url": b.get("previewLink")
+            })
+            c_num += 1
+
         return {
             "success": True,
             "is_penalty": False,
@@ -739,9 +762,11 @@ class SpecialistAIAgent:
             "videos": videos,
             "books": books,
             "references": references,
+            "citations": citations,
             "interactive_element": interactive_element,
             "page_citations": page_citations
         }
+
 
     def generate_quiz(self, topic: str, domain: str = "general") -> List[Dict[str, Any]]:
         """Generate a 3-question MCQ quiz on the current topic with explanations."""
