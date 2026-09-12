@@ -9,8 +9,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def run_server(host="127.0.0.1", port=8000):
+def run_server(host=None, port=None):
     """Launch the FastAPI / Uvicorn web server."""
+    if host is None:
+        host = os.getenv("HOST", "0.0.0.0")
+    if port is None:
+        port = int(os.getenv("PORT", "8000"))
+
     import uvicorn
     print("\n" + "="*60)
     print(" 🚀 STARTING SPECIALIST AI AGENT WEB APPLICATION")
@@ -75,8 +80,9 @@ def run_cli():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Specialist AI Agent Runner")
     parser.add_argument("--cli", action="store_true", help="Run in CLI interactive mode")
-    parser.add_argument("--host", default="127.0.0.1", help="Host address for web server")
-    parser.add_argument("--port", type=int, default=8000, help="Port for web server")
+    parser.add_argument("--host", default=os.getenv("HOST", "0.0.0.0"), help="Host address for web server")
+    parser.add_argument("--port", type=int, default=int(os.getenv("PORT", "8000")), help="Port for web server")
+
     args = parser.parse_args()
 
     if args.cli:
